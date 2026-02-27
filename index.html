@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>EvaFlix | Engineering & Innovation Nigeria</title>
+    <meta name="description" content="Project-Mech Hub is Nigeria's premier destination for mechanical engineering, technical deep-dives, and creative builds. Watch our latest projects and technical reviews.">
+    <meta name="keywords" content="Engineering Nigeria, Mechanical Projects, Project-Mech, Technical DIY, Lagos Tech">
+
+    <style>
+        :root {
+            --bg-dark: #2c343c;
+            --sidebar-dark: #343c44;
+            --accent-yellow: #f4b41a;
+            --text-white: #ffffff;
+            --text-gray: #bdc3c7;
+            --transition-speed: 0.4s;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--bg-dark);
+            border-bottom: 4px solid var(--accent-yellow);
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        header h1 { margin: 0; color: var(--accent-yellow); font-size: 2rem; }
+
+        .wrapper { display: flex; padding: 20px; gap: 20px; flex-grow: 1; overflow: hidden; }
+
+        /* Sidebar Navigation */
+        nav { width: 220px; flex-shrink: 0; }
+        .nav-box { display: flex; flex-direction: column; border: 2px solid var(--accent-yellow); }
+        nav a {
+            background-color: var(--sidebar-dark);
+            color: white;
+            text-decoration: none;
+            padding: 18px;
+            border-bottom: 2px solid var(--accent-yellow);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        nav a:hover, nav a.active { background-color: var(--accent-yellow); color: var(--bg-dark); }
+
+        #content-area { flex-grow: 1; position: relative; overflow-y: auto; padding-right: 10px; }
+
+        /* SPA Page Transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* 3-COLUMN LARGE GRID */
+        main#video-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            padding-bottom: 40px;
+        }
+
+        .video-card { 
+            background-color: white; 
+            border: 4px solid var(--accent-yellow); 
+            padding: 25px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            min-height: 420px; 
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+        .video-card:hover { transform: translateY(-5px); }
+        
+        .video-card img { width: 100%; height: auto; border: 3px solid var(--bg-dark); }
+        
+        .video-title {
+            color: #000;
+            font-family: Arial, sans-serif;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .btn-style {
+            background-color: var(--bg-dark); 
+            color: white;
+            padding: 14px 35px; 
+            border-radius: 40px; 
+            border: 3px solid var(--accent-yellow);
+            text-decoration: none; 
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+        .btn-style:hover { background-color: var(--accent-yellow); color: var(--bg-dark); }
+
+        /* PREVIEW PAGE STYLING */
+        .preview-content {
+            background: var(--sidebar-dark);
+            border: 4px solid var(--accent-yellow);
+            padding: 40px;
+            text-align: left; /* Better for reading descriptions */
+        }
+        .preview-img-container { text-align: center; }
+        .preview-img { width: 90%; max-width: 750px; border: 6px solid white; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .preview-desc { 
+            font-family: Arial, sans-serif; 
+            color: var(--text-gray); 
+            margin: 25px 0; 
+            line-height: 1.8; 
+            font-size: 1.1rem;
+        }
+
+        /* MONETIZATION AD SLOTS */
+        .ad-banner { 
+            background: #1a1a1a; 
+            border: 2px dashed #444; 
+            margin: 25px 0; 
+            padding: 30px; 
+            color: #666; 
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        @media (max-width: 1100px) { main#video-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { 
+            main#video-grid { grid-template-columns: 1fr; } 
+            body { height: auto; overflow-y: auto; }
+            .wrapper { flex-direction: column; overflow: visible; }
+            nav { width: 100%; }
+            .preview-img { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>EvaFlix</h1>
+    </header>
+
+    <div class="wrapper">
+        <nav>
+            <div class="nav-box">
+                <a onclick="showPage('home')" id="nav-home" class="active">Home / Videos</a>
+                <a onclick="showPage('about')" id="nav-about">About Us</a>
+                <a onclick="showPage('contact')" id="nav-contact">Contact</a>
+                <a onclick="showPage('privacy')" id="nav-privacy">Privacy Policy</a>
+            </div>
+        </nav>
+
+        <div id="content-area">
+            
+            <div id="home" class="page active" style="display: block; opacity: 1;">
+                <main id="video-grid">
+                    <p style="text-align: center; grid-column: 1/-1;">Loading Videos...</p>
+                </main>
+            </div>
+
+            <div id="preview-page" class="page">
+                <div class="preview-content">
+                    <button onclick="showPage('home')" class="btn-style" style="margin-bottom: 20px; font-size: 0.8rem;">← Return to Hub</button>
+                    <div class="ad-banner">[ AD SLOT 1: HEADER ]</div>
+                    <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 2.2rem; margin: 10px 0; text-align: center;"></h2>
+                    <div class="preview-img-container"><img id="prev-img" class="preview-img" src="" alt="Video Preview"></div>
+                    <div class="ad-banner">[ AD SLOT 2: MID-PAGE ]</div>
+                    <p id="prev-desc" class="preview-desc"></p>
+                    <div style="text-align: center;">
+                        <a id="youtube-link" href="#" target="_blank" class="btn-style" style="font-size: 1.3rem; background: #e62117; border-color: #fff; padding: 20px 50px;">
+                            WATCH FULL VIDEO ON YOUTUBE
+                        </a>
+                    </div>
+                    <div class="ad-banner" style="margin-top: 50px;">[ AD SLOT 3: FOOTER ]</div>
+                </div>
+            </div>
+
+            <div id="about" class="page">
+                <section class="preview-content">
+                    <h2 style="color: var(--accent-yellow);">About Project-Mech Hub</h2>
+                    <p class="preview-desc">EvaFlix is the ultimate gateway to experiencing the wonders of YouTube videos in a simpler, smoother, and more enjoyable way. We believe great content should feel effortless to explore, not complicated or cluttered. That’s why our team carefully designed EvaFlix to make discovering and watching YouTube content easy for everyone, whether you’re here to learn something new, stay updated, or just relax with your favorite creators.
+
+                        With a clean and user-friendly interface, EvaFlix removes distractions and puts the focus where it belongs, on the videos you love. No confusion, no unnecessary steps, just quick access to fresh uploads and trending content. Everything is organized in a way that feels natural and straightforward, so anyone can navigate it without stress.
+                        
+                        Our team worked hard to ensure that accessing YouTube content through EvaFlix is smooth and reliable. From fast loading times to a minimal design that looks great on any device, we built the platform with simplicity and convenience in mind. Whether you are on your phone, tablet, or computer, EvaFlix delivers a consistent and enjoyable viewing experience.
+                        
+                        At its core, EvaFlix is about making YouTube content more accessible to everyone. It’s simple, efficient, and designed to help you spend less time searching and more time watching.</p>
+                    <p class="preview-desc"></p>
+                </section>
+            </div>
+
+            <div id="contact" class="page">
+                <section class="preview-content">
+                    <h2 style="color: var(--accent-yellow);">Contact Us</h2>
+                    <p class="preview-desc">For business inquiries, collaborations, or technical consultations:<br><br>
+                    <strong>Email:</strong> evansreddit2010@gmail.com<br>
+                    <strong>Location:</strong> Abuja, Nigeria</p>
+                </section>
+            </div>
+
+            <div id="privacy" class="page">
+                <section class="preview-content">
+                    <h2 style="color: var(--accent-yellow);">Privacy Policy</h2>
+                    <p class="preview-desc">EvaFlix respects your privacy and is committed to maintaining a safe and transparent browsing experience for all visitors. We understand that trust matters, especially online, and we take that responsibility seriously.
+
+                        This website uses the YouTube Data API to display public video content directly from our official channel. The videos shown on EvansFlix Hub are publicly available on YouTube, and we simply present them in a clean, organized format to make viewing easier and more convenient for our audience.
+                        
+                        We do not collect personal information unless you choose to provide it voluntarily, such as through direct contact. EvansFlix Hub does not request sensitive details, and we do not sell, trade, or share your personal data with third parties. Any information processed through the YouTube Data API follows YouTube’s own privacy policies and terms of service.
+                        
+                        Please note that when you interact with embedded YouTube content, YouTube may collect certain data in accordance with its privacy policy. We encourage users to review YouTube’s Privacy Policy and Terms of Service to better understand how their data may be handled on their platform.
+                        
+                        By using EvansFlix Hub, you agree to this transparent and straightforward approach to content display. Our goal is simple: provide easy access to our official YouTube videos while respecting your privacy and maintaining a secure browsing environment.</p>
+                    <p class="preview-desc"><strong>Data Collection:</strong> We do not personally collect or store user data. However, third-party services, including Google AdSense and YouTube, may use cookies to serve ads based on your visits to this and other websites. You may opt out of personalized advertising by visiting Google's Ad Settings.</p>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const apiKey = 'AIzaSyCmsfMTlJ9hQhBLWH5sYQuuSXPKjIsbXQo';
+        const channelId = 'UCY4Xo0i1hZwD3o0YDqI-16Q';
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('nav a');
+            pages.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+            navLinks.forEach(l => l.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            target.style.display = 'block';
+            setTimeout(() => { target.classList.add('active'); }, 50);
+            const navItem = document.getElementById('nav-' + pageId);
+            if(navItem) navItem.classList.add('active');
+            document.getElementById('content-area').scrollTop = 0;
+        }
+
+        function openPreview(videoId, title, thumbnail, description) {
+            document.getElementById('prev-title').innerText = title;
+            document.getElementById('prev-img').src = thumbnail;
+            document.getElementById('prev-desc').innerHTML = description;
+            document.getElementById('youtube-link').href = `https://www.youtube.com/watch?v=${videoId}`;
+            showPage('preview-page');
+        }
+
+        async function fetchMyVideos() {
+            const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=12&type=video`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const grid = document.getElementById('video-grid');
+                if (data.items) {
+                    grid.innerHTML = ''; 
+                    data.items.forEach(item => {
+                        const snippet = item.snippet;
+                        const videoId = item.id.videoId;
+                        const cleanTitle = snippet.title.replace(/'/g, "\\'");
+                        const cleanDesc = snippet.description.replace(/'/g, "\\'").replace(/\n/g, "<br>");
+                        const thumb = snippet.thumbnails.high.url;
+
+                        const card = document.createElement('div');
+                        card.className = 'video-card';
+                        card.innerHTML = `
+                            <img src="${thumb}">
+                            <div class="video-title">${snippet.title}</div>
+                            <div class="btn-style" onclick="openPreview('${videoId}', '${cleanTitle}', '${thumb}', '${cleanDesc}')">
+                                Preview Details
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+            } catch (err) { 
+                console.error("API Error:", err); 
+                document.getElementById('video-grid').innerHTML = "<p>Error loading videos.</p>";
+            }
+        }
+
+        fetchMyVideos();
+    </script>
+</body>
+</html>
