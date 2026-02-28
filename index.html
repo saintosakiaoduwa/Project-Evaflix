@@ -41,7 +41,6 @@
 
         .wrapper { display: flex; padding: 20px; gap: 20px; flex-grow: 1; overflow: hidden; }
 
-        /* Sidebar Navigation */
         nav { width: 220px; flex-shrink: 0; }
         .nav-box { display: flex; flex-direction: column; border: 2px solid var(--accent-yellow); }
         nav a {
@@ -58,7 +57,6 @@
 
         #content-area { flex-grow: 1; position: relative; overflow-y: auto; padding-right: 10px; }
 
-        /* SPA Page Transitions */
         .page {
             display: none;
             opacity: 0;
@@ -67,7 +65,6 @@
         }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* 3-COLUMN LARGE GRID */
         main#video-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -116,12 +113,11 @@
         }
         .btn-style:hover { background-color: var(--accent-yellow); color: var(--bg-dark); }
 
-        /* PREVIEW PAGE STYLING */
         .preview-content {
             background: var(--sidebar-dark);
             border: 4px solid var(--accent-yellow);
             padding: 40px;
-            text-align: left; /* Better for reading descriptions */
+            text-align: left; 
         }
         .preview-img-container { text-align: center; }
         .preview-img { width: 90%; max-width: 750px; border: 6px solid white; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -133,17 +129,14 @@
             font-size: 1.1rem;
         }
 
-        /* MONETIZATION AD SLOTS */
-        .ad-banner { 
-            background: #1a1a1a; 
-            border: 2px dashed #444; 
-            margin: 25px 0; 
-            padding: 30px; 
-            color: #666; 
-            font-family: sans-serif;
-            font-size: 0.8rem;
-            text-align: center;
+        /* AD SLOTS CSS */
+        .ad-container { 
+            text-align: center; 
+            margin: 20px 0; 
+            min-height: 50px;
+            width: 100%;
         }
+        .ad-container iframe { max-width: 100% !important; }
 
         @media (max-width: 1100px) { main#video-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { 
@@ -156,6 +149,8 @@
     </style>
 </head>
 <body>
+
+    <script src="https://pl28814415.effectivegatecpm.com/99/e4/aa/99e4aaa8e79457548358c5598725b060.js"></script>
 
     <header>
         <h1>EvaFlix</h1>
@@ -174,6 +169,14 @@
         <div id="content-area">
             
             <div id="home" class="page active" style="display: block; opacity: 1;">
+                
+                <div class="ad-container">
+                    <script type="text/javascript">
+                        atOptions = { 'key' : 'db1d20ad733636971dfca68667dd6f7b', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/db1d20ad733636971dfca68667dd6f7b/invoke.js"></script>
+                </div>
+
                 <main id="video-grid">
                     <p style="text-align: center; grid-column: 1/-1;">Loading Videos...</p>
                 </main>
@@ -182,38 +185,48 @@
             <div id="preview-page" class="page">
                 <div class="preview-content">
                     <button onclick="showPage('home')" class="btn-style" style="margin-bottom: 20px; font-size: 0.8rem;">← Return to Hub</button>
-                    <div class="ad-banner">[ AD SLOT 1: HEADER ]</div>
+                    
                     <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 2.2rem; margin: 10px 0; text-align: center;"></h2>
-                    <div class="preview-img-container"><img id="prev-img" class="preview-img" src="" alt="Video Preview"></div>
-                    <div class="ad-banner">[ AD SLOT 2: MID-PAGE ]</div>
+                    
+                    <div class="preview-img-container">
+                        <img id="prev-img" class="preview-img" src="" alt="Video Preview">
+                    </div>
+
+                    <div class="ad-container">
+                        <script type="text/javascript">
+                            atOptions = { 'key' : 'bff22c8588bef25b2c207685c1361b1b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
+                    </div>
+
                     <p id="prev-desc" class="preview-desc"></p>
+                    
                     <div style="text-align: center;">
                         <a id="youtube-link" href="#" target="_blank" class="btn-style" style="font-size: 1.3rem; background: #e62117; border-color: #fff; padding: 20px 50px;">
                             WATCH FULL VIDEO ON YOUTUBE
                         </a>
                     </div>
-                    <div class="ad-banner" style="margin-top: 50px;">[ AD SLOT 3: FOOTER ]</div>
+
+                    <div class="ad-container" style="margin-top: 50px;">
+                         <script type="text/javascript">
+                            atOptions = { 'key' : 'bff22c8588bef25b2c207685c1361b1b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
+                    </div>
                 </div>
             </div>
 
             <div id="about" class="page">
                 <section class="preview-content">
                     <h2 style="color: var(--accent-yellow);">About Project-Mech Hub</h2>
-                    <p class="preview-desc">EvaFlix is the ultimate gateway to experiencing the wonders of YouTube videos in a simpler, smoother, and more enjoyable way. We believe great content should feel effortless to explore, not complicated or cluttered. That’s why our team carefully designed EvaFlix to make discovering and watching YouTube content easy for everyone, whether you’re here to learn something new, stay updated, or just relax with your favorite creators.
-
-                        With a clean and user-friendly interface, EvaFlix removes distractions and puts the focus where it belongs, on the videos you love. No confusion, no unnecessary steps, just quick access to fresh uploads and trending content. Everything is organized in a way that feels natural and straightforward, so anyone can navigate it without stress.
-                        
-                        Our team worked hard to ensure that accessing YouTube content through EvaFlix is smooth and reliable. From fast loading times to a minimal design that looks great on any device, we built the platform with simplicity and convenience in mind. Whether you are on your phone, tablet, or computer, EvaFlix delivers a consistent and enjoyable viewing experience.
-                        
-                        At its core, EvaFlix is about making YouTube content more accessible to everyone. It’s simple, efficient, and designed to help you spend less time searching and more time watching.</p>
-                    <p class="preview-desc"></p>
+                    <p class="preview-desc">EvaFlix is the ultimate gateway to experiencing the wonders of YouTube videos in a simpler, smoother, and more enjoyable way...</p>
                 </section>
             </div>
 
             <div id="contact" class="page">
                 <section class="preview-content">
                     <h2 style="color: var(--accent-yellow);">Contact Us</h2>
-                    <p class="preview-desc">For business inquiries, collaborations, or technical consultations:<br><br>
+                    <p class="preview-desc">For business inquiries:<br><br>
                     <strong>Email:</strong> evansreddit2010@gmail.com<br>
                     <strong>Location:</strong> Abuja, Nigeria</p>
                 </section>
@@ -222,16 +235,7 @@
             <div id="privacy" class="page">
                 <section class="preview-content">
                     <h2 style="color: var(--accent-yellow);">Privacy Policy</h2>
-                    <p class="preview-desc">EvaFlix respects your privacy and is committed to maintaining a safe and transparent browsing experience for all visitors. We understand that trust matters, especially online, and we take that responsibility seriously.
-
-                        This website uses the YouTube Data API to display public video content directly from our official channel. The videos shown on EvansFlix Hub are publicly available on YouTube, and we simply present them in a clean, organized format to make viewing easier and more convenient for our audience.
-                        
-                        We do not collect personal information unless you choose to provide it voluntarily, such as through direct contact. EvansFlix Hub does not request sensitive details, and we do not sell, trade, or share your personal data with third parties. Any information processed through the YouTube Data API follows YouTube’s own privacy policies and terms of service.
-                        
-                        Please note that when you interact with embedded YouTube content, YouTube may collect certain data in accordance with its privacy policy. We encourage users to review YouTube’s Privacy Policy and Terms of Service to better understand how their data may be handled on their platform.
-                        
-                        By using EvansFlix Hub, you agree to this transparent and straightforward approach to content display. Our goal is simple: provide easy access to our official YouTube videos while respecting your privacy and maintaining a secure browsing environment.</p>
-                    <p class="preview-desc"><strong>Data Collection:</strong> We do not personally collect or store user data. However, third-party services, including Google AdSense and YouTube, may use cookies to serve ads based on your visits to this and other websites. You may opt out of personalized advertising by visiting Google's Ad Settings.</p>
+                    <p class="preview-desc">EvaFlix respects your privacy...</p>
                 </section>
             </div>
 
@@ -298,5 +302,8 @@
 
         fetchMyVideos();
     </script>
+
+    <script src="https://pl28814469.effectivegatecpm.com/35/93/54/359354668f821698bda055915322307a.js"></script>
+
 </body>
 </html>
