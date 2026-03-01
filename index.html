@@ -37,7 +37,21 @@
         .loader-progress { width: 0%; height: 100%; background: green; animation: loadProgress 5s linear forwards; }
         @keyframes loadProgress { from { width: 0%; } to { width: 100%; } }
 
-        /* --- VERIFICATION BOX & MOBILE FIX --- */
+        /* --- AD STYLING --- */
+        .ad-banner { 
+            background: #1a1a1a; 
+            border: 2px dashed #444; 
+            margin: 20px auto; 
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden;
+            min-height: 100px;
+        }
+        .ad-banner iframe { max-width: 100% !important; }
+
+        /* --- VERIFICATION BOX --- */
         .verification-wrapper {
             background: rgba(255,255,255,0.05);
             padding: 30px;
@@ -70,30 +84,10 @@
             text-align: center;
             border-radius: 8px;
             border: 2px solid var(--accent-yellow);
+            background: white;
         }
 
-        /* Mobile Fix for Scattered Layout */
-        @media (max-width: 600px) {
-            .grid-code-container { flex-direction: column; gap: 20px; }
-            .code-display { width: 80%; letter-spacing: 4px; font-size: 1.2rem; }
-            #user-code-input { width: 80%; }
-        }
-
-        /* --- AD STYLING --- */
-        .ad-banner { 
-            background: #1a1a1a; 
-            border: 2px dashed #444; 
-            margin: 40px auto; 
-            padding: 10px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            overflow: hidden; 
-        }
-        /* Ensure iframe ads don't overflow on mobile */
-        .ad-banner iframe { max-width: 100% !important; }
-
-        /* --- OTHER STYLES --- */
+        /* --- LAYOUT --- */
         header { background-color: var(--bg-dark); border-bottom: 4px solid var(--accent-yellow); padding: 20px; text-align: center; flex-shrink: 0; }
         header h1 { margin: 0; color: var(--accent-yellow); font-size: 2rem; }
         .wrapper { display: flex; padding: 20px; gap: 20px; flex-grow: 1; overflow: hidden; }
@@ -101,18 +95,23 @@
         .nav-box { display: flex; flex-direction: column; border: 2px solid var(--accent-yellow); }
         nav a { background-color: var(--sidebar-dark); color: white; text-decoration: none; padding: 18px; border-bottom: 2px solid var(--accent-yellow); font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
         nav a:hover, nav a.active { background-color: var(--accent-yellow); color: var(--bg-dark); }
-        #content-area { flex-grow: 1; position: relative; overflow-y: auto; padding-right: 10px; }
+        
+        #content-area { flex-grow: 1; position: relative; overflow-y: auto; padding-right: 10px; scroll-behavior: smooth; }
         .page { display: none; opacity: 0; transform: translateY(15px); transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
+        
         main#video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-bottom: 40px; }
-        .video-card { background-color: white; border: 4px solid var(--accent-yellow); padding: 25px; display: flex; flex-direction: column; align-items: center; min-height: 420px; justify-content: space-between; }
-        .video-card img { width: 100%; height: auto; border: 3px solid var(--bg-dark); }
-        .video-title { color: #000; font-size: 1.1rem; margin: 15px 0; text-align: center; }
-        .btn-style { background-color: var(--bg-dark); color: white; padding: 14px 35px; border-radius: 40px; border: 3px solid var(--accent-yellow); text-decoration: none; font-size: 0.95rem; cursor: pointer; text-align: center; display: inline-block; text-transform: uppercase; }
+        .video-card { background-color: white; border: 4px solid var(--accent-yellow); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 400px; justify-content: space-between; transition: 0.3s; }
+        .video-card:hover { transform: scale(1.02); }
+        .video-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 3px solid var(--bg-dark); cursor: pointer; }
+        .video-title { color: #000; font-size: 1rem; margin: 15px 0; text-align: center; font-weight: bold; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        
+        .btn-style { background-color: var(--bg-dark); color: white; padding: 14px 35px; border-radius: 40px; border: 3px solid var(--accent-yellow); text-decoration: none; font-size: 0.85rem; cursor: pointer; text-align: center; display: inline-block; text-transform: uppercase; }
         .btn-style:hover { background-color: var(--accent-yellow); color: var(--bg-dark); }
+        
         .preview-content { background: var(--sidebar-dark); border: 4px solid var(--accent-yellow); padding: 40px; }
-        .preview-img { width: 90%; max-width: 750px; border: 6px solid white; margin: 20px 0; }
-        .preview-desc { font-family: Arial, sans-serif; color: var(--text-gray); margin: 25px 0; line-height: 1.8; }
+        .preview-img { width: 100%; max-width: 700px; border: 6px solid white; margin: 20px 0; border-radius: 5px; }
+        .preview-desc { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--text-gray); margin: 25px 0; line-height: 1.6; white-space: pre-wrap; font-size: 1rem; }
 
         @media (max-width: 1100px) { main#video-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { 
@@ -120,6 +119,7 @@
             body { height: auto; overflow-y: auto; }
             .wrapper { flex-direction: column; }
             nav { width: 100%; }
+            .preview-content { padding: 20px; }
         }
     </style>
 </head>
@@ -145,12 +145,12 @@
 
         <div id="content-area">
             <div id="home" class="page active">
-                <main id="video-grid"><p style="text-align: center; grid-column: 1/-1;">Loading Videos...</p></main>
+                <main id="video-grid"><p style="text-align: center; grid-column: 1/-1;">Fetching latest content...</p></main>
             </div>
 
             <div id="preview-page" class="page">
                 <div class="preview-content">
-                    <button onclick="showPage('home')" class="btn-style" style="margin-bottom: 20px; font-size: 0.8rem;">← Return to Hub</button>
+                    <button onclick="showPage('home')" class="btn-style" style="margin-bottom: 20px; font-size: 0.75rem;">← Back to Gallery</button>
                     
                     <div class="ad-banner">
                         <script type="text/javascript">
@@ -159,8 +159,8 @@
                         <script type="text/javascript" src="https://www.highperformanceformat.com/db1d20ad733636971dfca68667dd6f7b/invoke.js"></script>
                     </div>
 
-                    <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 2.2rem; text-align: center;"></h2>
-                    <div style="text-align:center;"><img id="prev-img" class="preview-img" src="" alt="Preview"></div>
+                    <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 1.8rem; text-align: center;"></h2>
+                    <div style="text-align:center;"><img id="prev-img" class="preview-img" src="" alt="Thumbnail"></div>
                     
                     <div class="ad-banner">
                         <script type="text/javascript">
@@ -172,35 +172,35 @@
                     <p id="prev-desc" class="preview-desc"></p>
 
                     <div id="verify-box" class="verification-wrapper">
-                        <h3 style="color: var(--accent-yellow); margin-top: 0;">Step 1: Get Your Secret Code</h3>
-                        <p style="font-size: 0.9rem; color: #ccc;">Find the 5-digit code in the YouTube video!</p>
+                        <h3 style="color: var(--accent-yellow); margin-top: 0;">Unlock Full Video</h3>
+                        <p style="font-size: 0.9rem; color: #ccc;">Enter the 5-digit secret code shown in the video clip.</p>
                         <div class="grid-code-container">
                             <div class="code-display">4 5 8 9 3</div>
                             <input type="text" id="user-code-input" placeholder="CODE" maxlength="5">
                         </div>
-                        <button onclick="verifyUserCode()" class="btn-style">Verify Code & Proceed</button>
+                        <button onclick="verifyUserCode()" class="btn-style">Submit Verification</button>
                         <p id="verify-status" style="margin-top: 15px; font-weight: bold;"></p>
                     </div>
 
                     <div id="watch-section" style="text-align: center; margin-top: 30px; display: none;">
-                        <h2 style="color: #2ecc71;">✅ Verified!</h2>
-                        <a id="youtube-link" href="#" target="_blank" class="btn-style" style="background: #e62117; border-color: #fff; padding: 20px 50px; font-size: 1.2rem;">
-                            WATCH FULL VIDEO ON YOUTUBE
+                        <h2 style="color: #2ecc71;">Verification Successful!</h2>
+                        <a id="youtube-link" href="#" target="_blank" class="btn-style" style="background: #e62117; border: none; padding: 20px 50px; font-size: 1.1rem; font-weight: bold;">
+                            WATCH ON YOUTUBE NOW
                         </a>
                     </div>
 
                     <div class="ad-banner" style="margin-top: 50px;">
                         <script type="text/javascript">
-                            atOptions = { 'key' : 'bff22c8588bef25b2c207685c1361b1b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+                            atOptions = { 'key' : 'db1d20ad733636971dfca68667dd6f7b', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
                         </script>
-                        <script type="text/javascript" src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
+                        <script type="text/javascript" src="https://www.highperformanceformat.com/db1d20ad733636971dfca68667dd6f7b/invoke.js"></script>
                     </div>
                 </div>
             </div>
 
-            <div id="about" class="page"><section class="preview-content"><h2 style="color: var(--accent-yellow);">About Us</h2><p>EvaFlix brings healthy fruit stories to life...</p></section></div>
-            <div id="contact" class="page"><section class="preview-content"><h2>Contact Us</h2><p>evansreddit2010@gmail.com</p></section></div>
-            <div id="privacy" class="page"><section class="preview-content"><h2>Privacy Policy</h2><p>We respect your data...</p></section></div>
+            <div id="about" class="page"><section class="preview-content"><h2 style="color: var(--accent-yellow);">About EvaFlix</h2><p>EvaFlix is Nigeria's premier platform for engineering innovation and entertaining content. We reward our community for staying engaged with our latest projects.</p></section></div>
+            <div id="contact" class="page"><section class="preview-content"><h2>Contact Us</h2><p>For inquiries, reach out to us at: <strong>evansreddit2010@gmail.com</strong></p></section></div>
+            <div id="privacy" class="page"><section class="preview-content"><h2>Privacy Policy</h2><p>Your privacy matters. We use cookies only for functional purposes and do not store personal browsing data.</p></section></div>
         </div>
     </div>
 
@@ -211,6 +211,7 @@
         const apiKey = 'AIzaSyCmsfMTlJ9hQhBLWH5sYQuuSXPKjIsbXQo';
         const channelId = 'UCY4Xo0i1hZwD3o0YDqI-16Q';
 
+        // Splash screen handler
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const s = document.getElementById('splash-screen');
@@ -222,30 +223,44 @@
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
             document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+            
             const target = document.getElementById(pageId);
             target.style.display = 'block';
             setTimeout(() => target.classList.add('active'), 50);
-            if(document.getElementById('nav-'+pageId)) document.getElementById('nav-'+pageId).classList.add('active');
+            
+            const navBtn = document.getElementById('nav-'+pageId);
+            if(navBtn) navBtn.classList.add('active');
+            
+            document.getElementById('content-area').scrollTop = 0;
         }
 
         function verifyUserCode() {
-            const input = document.getElementById('user-code-input').value;
+            const input = document.getElementById('user-code-input').value.trim();
             const status = document.getElementById('verify-status');
-            const verifyBox = document.getElementById('verify-box');
-            const watchSection = document.getElementById('watch-section');
             if(input === "45893") { 
-                verifyBox.style.display = "none";
-                watchSection.style.display = "block";
+                document.getElementById('verify-box').style.display = "none";
+                document.getElementById('watch-section').style.display = "block";
             } else {
-                status.innerHTML = "❌ Invalid Code! Check the YouTube video again.";
+                status.innerHTML = "❌ Invalid Code! Please watch the video carefully.";
                 status.style.color = "#e74c3c";
             }
         }
 
-        function openPreview(videoId, title, thumbnail, description) {
-            document.getElementById('prev-title').innerText = title;
+        // Helper to handle UTF-8 Base64 Safely
+        function b64DecodeUnicode(str) {
+            return decodeURIComponent(atob(str).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        }
+
+        function openPreview(videoId, title, thumbnail, b64Desc) {
+            document.getElementById('prev-title').innerText = decodeURIComponent(title);
             document.getElementById('prev-img').src = thumbnail;
-            document.getElementById('prev-desc').innerHTML = description;
+            try {
+                document.getElementById('prev-desc').innerText = b64DecodeUnicode(b64Desc);
+            } catch(e) {
+                document.getElementById('prev-desc').innerText = "Description unavailable.";
+            }
             document.getElementById('youtube-link').href = `https://www.youtube.com/watch?v=${videoId}`;
             document.getElementById('verify-box').style.display = "block";
             document.getElementById('watch-section').style.display = "none";
@@ -255,26 +270,38 @@
         }
 
         async function fetchMyVideos() {
-            const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=12&type=video`;
+            const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=15&type=video`;
             try {
                 const res = await fetch(url);
                 const data = await res.json();
                 const grid = document.getElementById('video-grid');
-                if (data.items) {
+                if (data.items && data.items.length > 0) {
                     grid.innerHTML = ''; 
                     data.items.forEach(item => {
                         const s = item.snippet;
                         const card = document.createElement('div');
                         card.className = 'video-card';
+                        
+                        const encodedTitle = encodeURIComponent(s.title);
+                        // Safe Base64 encoding for Unicode
+                        const b64Desc = btoa(encodeURIComponent(s.description).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                            return String.fromCharCode('0x' + p1);
+                        }));
+
                         card.innerHTML = `
-                            <img src="${s.thumbnails.high.url}">
+                            <img src="${s.thumbnails.high.url}" onclick="openPreview('${item.id.videoId}', '${encodedTitle}', '${s.thumbnails.high.url}', '${b64Desc}')">
                             <div class="video-title">${s.title}</div>
-                            <div class="btn-style" onclick="openPreview('${item.id.videoId}', '${s.title.replace(/'/g, "\\'")}', '${s.thumbnails.high.url}', '${s.description.replace(/'/g, "\\'")}')">Watch Video</div>
+                            <div class="btn-style" onclick="openPreview('${item.id.videoId}', '${encodedTitle}', '${s.thumbnails.high.url}', '${b64Desc}')">Watch Video</div>
                         `;
                         grid.appendChild(card);
                     });
+                } else {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No videos found.</p>';
                 }
-            } catch (err) { console.error(err); }
+            } catch (err) { 
+                console.error("YouTube Fetch Error:", err);
+                document.getElementById('video-grid').innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: red;">Error loading videos. Please check your API key.</p>';
+            }
         }
         fetchMyVideos();
     </script>
