@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>EvaFlix | Engineering & Innovation Nigeria</title>
-    <meta name="description" content="Project-Mech Hub is Nigeria's premier destination for mechanical engineering, technical deep-dives, and creative builds. Watch our latest projects and technical reviews.">
-    <meta name="keywords" content="Engineering Nigeria, Mechanical Projects, Project-Mech, Technical DIY, Lagos Tech">
-
     <style>
         :root {
             --bg-dark: #2c343c;
@@ -29,132 +25,113 @@
             overflow: hidden;
         }
 
-        header {
-            background-color: var(--bg-dark);
-            border-bottom: 4px solid var(--accent-yellow);
-            padding: 20px;
+        /* --- SPLASH SCREEN --- */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; transition: opacity 0.8s ease;
+        }
+        .loader-bar { width: 250px; height: 6px; background: #e0e0e0; border-radius: 10px; margin-top: 20px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: green; animation: loadProgress 5s linear forwards; }
+        @keyframes loadProgress { from { width: 0%; } to { width: 100%; } }
+
+        /* --- VERIFICATION BOX & MOBILE FIX --- */
+        .verification-wrapper {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
             text-align: center;
-            flex-shrink: 0;
+            border: 1px solid #444;
+        }
+        .grid-code-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .code-display {
+            background: white;
+            color: #333;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        #user-code-input {
+            width: 150px;
+            padding: 12px;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid var(--accent-yellow);
         }
 
+        /* Mobile Fix for Scattered Layout */
+        @media (max-width: 600px) {
+            .grid-code-container { flex-direction: column; gap: 20px; }
+            .code-display { width: 80%; letter-spacing: 4px; font-size: 1.2rem; }
+            #user-code-input { width: 80%; }
+        }
+
+        /* --- AD STYLING --- */
+        .ad-banner { 
+            background: #1a1a1a; 
+            border: 2px dashed #444; 
+            margin: 40px auto; 
+            padding: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden; 
+        }
+        /* Ensure iframe ads don't overflow on mobile */
+        .ad-banner iframe { max-width: 100% !important; }
+
+        /* --- OTHER STYLES --- */
+        header { background-color: var(--bg-dark); border-bottom: 4px solid var(--accent-yellow); padding: 20px; text-align: center; flex-shrink: 0; }
         header h1 { margin: 0; color: var(--accent-yellow); font-size: 2rem; }
-
         .wrapper { display: flex; padding: 20px; gap: 20px; flex-grow: 1; overflow: hidden; }
-
         nav { width: 220px; flex-shrink: 0; }
         .nav-box { display: flex; flex-direction: column; border: 2px solid var(--accent-yellow); }
-        nav a {
-            background-color: var(--sidebar-dark);
-            color: white;
-            text-decoration: none;
-            padding: 18px;
-            border-bottom: 2px solid var(--accent-yellow);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        nav a { background-color: var(--sidebar-dark); color: white; text-decoration: none; padding: 18px; border-bottom: 2px solid var(--accent-yellow); font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
         nav a:hover, nav a.active { background-color: var(--accent-yellow); color: var(--bg-dark); }
-
         #content-area { flex-grow: 1; position: relative; overflow-y: auto; padding-right: 10px; }
-
-        .page {
-            display: none;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
-        }
+        .page { display: none; opacity: 0; transform: translateY(15px); transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
-
-        main#video-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 30px; 
-            padding-bottom: 40px;
-        }
-
-        .video-card { 
-            background-color: white; 
-            border: 4px solid var(--accent-yellow); 
-            padding: 25px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-            min-height: 420px; 
-            justify-content: space-between;
-            transition: transform 0.3s ease;
-        }
-        .video-card:hover { transform: translateY(-5px); }
-        
+        main#video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-bottom: 40px; }
+        .video-card { background-color: white; border: 4px solid var(--accent-yellow); padding: 25px; display: flex; flex-direction: column; align-items: center; min-height: 420px; justify-content: space-between; }
         .video-card img { width: 100%; height: auto; border: 3px solid var(--bg-dark); }
-        
-        .video-title {
-            color: #000;
-            font-family: Arial, sans-serif;
-            font-size: 1.1rem;
-            margin: 15px 0;
-            text-align: center;
-            font-weight: bold;
-            line-height: 1.3;
-        }
-
-        .btn-style {
-            background-color: var(--bg-dark); 
-            color: white;
-            padding: 14px 35px; 
-            border-radius: 40px; 
-            border: 3px solid var(--accent-yellow);
-            text-decoration: none; 
-            font-size: 0.95rem;
-            cursor: pointer;
-            text-align: center;
-            display: inline-block;
-            text-transform: uppercase;
-        }
+        .video-title { color: #000; font-size: 1.1rem; margin: 15px 0; text-align: center; }
+        .btn-style { background-color: var(--bg-dark); color: white; padding: 14px 35px; border-radius: 40px; border: 3px solid var(--accent-yellow); text-decoration: none; font-size: 0.95rem; cursor: pointer; text-align: center; display: inline-block; text-transform: uppercase; }
         .btn-style:hover { background-color: var(--accent-yellow); color: var(--bg-dark); }
-
-        .preview-content {
-            background: var(--sidebar-dark);
-            border: 4px solid var(--accent-yellow);
-            padding: 40px;
-            text-align: left; 
-        }
-        .preview-img-container { text-align: center; }
-        .preview-img { width: 90%; max-width: 750px; border: 6px solid white; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .preview-desc { 
-            font-family: Arial, sans-serif; 
-            color: var(--text-gray); 
-            margin: 25px 0; 
-            line-height: 1.8; 
-            font-size: 1.1rem;
-        }
-
-        /* AD SLOTS CSS */
-        .ad-container { 
-            text-align: center; 
-            margin: 20px 0; 
-            min-height: 50px;
-            width: 100%;
-        }
-        .ad-container iframe { max-width: 100% !important; }
+        .preview-content { background: var(--sidebar-dark); border: 4px solid var(--accent-yellow); padding: 40px; }
+        .preview-img { width: 90%; max-width: 750px; border: 6px solid white; margin: 20px 0; }
+        .preview-desc { font-family: Arial, sans-serif; color: var(--text-gray); margin: 25px 0; line-height: 1.8; }
 
         @media (max-width: 1100px) { main#video-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { 
             main#video-grid { grid-template-columns: 1fr; } 
             body { height: auto; overflow-y: auto; }
-            .wrapper { flex-direction: column; overflow: visible; }
+            .wrapper { flex-direction: column; }
             nav { width: 100%; }
-            .preview-img { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <script src="https://pl28814415.effectivegatecpm.com/99/e4/aa/99e4aaa8e79457548358c5598725b060.js"></script>
+    <div id="splash-screen">
+        <h1 style="color: var(--accent-yellow); font-size: 3.5rem; margin-bottom: 0;">EvaFlix</h1>
+        <p style="color: green; letter-spacing: 2px;">Watch and Earn Prizes</p>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
 
-    <header>
-        <h1>EvaFlix</h1>
-    </header>
+    <header><h1>EvaFlix</h1></header>
 
     <div class="wrapper">
         <nav>
@@ -167,96 +144,102 @@
         </nav>
 
         <div id="content-area">
-            
-            <div id="home" class="page active" style="display: block; opacity: 1;">
-                
-                <div class="ad-container">
-                    <script type="text/javascript">
-                        atOptions = { 'key' : 'db1d20ad733636971dfca68667dd6f7b', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/db1d20ad733636971dfca68667dd6f7b/invoke.js"></script>
-                </div>
-
-                <main id="video-grid">
-                    <p style="text-align: center; grid-column: 1/-1;">Loading Videos...</p>
-                </main>
+            <div id="home" class="page active">
+                <main id="video-grid"><p style="text-align: center; grid-column: 1/-1;">Loading Videos...</p></main>
             </div>
 
             <div id="preview-page" class="page">
                 <div class="preview-content">
                     <button onclick="showPage('home')" class="btn-style" style="margin-bottom: 20px; font-size: 0.8rem;">← Return to Hub</button>
                     
-                    <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 2.2rem; margin: 10px 0; text-align: center;"></h2>
-                    
-                    <div class="preview-img-container">
-                        <img id="prev-img" class="preview-img" src="" alt="Video Preview">
+                    <div class="ad-banner">
+                        <script type="text/javascript">
+                            atOptions = { 'key' : 'db1d20ad733636971dfca68667dd6f7b', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+                        </script>
+                        <script type="text/javascript" src="https://www.highperformanceformat.com/db1d20ad733636971dfca68667dd6f7b/invoke.js"></script>
                     </div>
 
-                    <div class="ad-container">
+                    <h2 id="prev-title" style="color: var(--accent-yellow); font-size: 2.2rem; text-align: center;"></h2>
+                    <div style="text-align:center;"><img id="prev-img" class="preview-img" src="" alt="Preview"></div>
+                    
+                    <div class="ad-banner">
                         <script type="text/javascript">
                             atOptions = { 'key' : 'bff22c8588bef25b2c207685c1361b1b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
                         </script>
-                        <script src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
+                        <script type="text/javascript" src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
                     </div>
 
                     <p id="prev-desc" class="preview-desc"></p>
-                    
-                    <div style="text-align: center;">
-                        <a id="youtube-link" href="#" target="_blank" class="btn-style" style="font-size: 1.3rem; background: #e62117; border-color: #fff; padding: 20px 50px;">
+
+                    <div id="verify-box" class="verification-wrapper">
+                        <h3 style="color: var(--accent-yellow); margin-top: 0;">Step 1: Get Your Secret Code</h3>
+                        <p style="font-size: 0.9rem; color: #ccc;">Find the 5-digit code in the YouTube video!</p>
+                        <div class="grid-code-container">
+                            <div class="code-display">4 5 8 9 3</div>
+                            <input type="text" id="user-code-input" placeholder="CODE" maxlength="5">
+                        </div>
+                        <button onclick="verifyUserCode()" class="btn-style">Verify Code & Proceed</button>
+                        <p id="verify-status" style="margin-top: 15px; font-weight: bold;"></p>
+                    </div>
+
+                    <div id="watch-section" style="text-align: center; margin-top: 30px; display: none;">
+                        <h2 style="color: #2ecc71;">✅ Verified!</h2>
+                        <a id="youtube-link" href="#" target="_blank" class="btn-style" style="background: #e62117; border-color: #fff; padding: 20px 50px; font-size: 1.2rem;">
                             WATCH FULL VIDEO ON YOUTUBE
                         </a>
                     </div>
 
-                    <div class="ad-container" style="margin-top: 50px;">
-                         <script type="text/javascript">
+                    <div class="ad-banner" style="margin-top: 50px;">
+                        <script type="text/javascript">
                             atOptions = { 'key' : 'bff22c8588bef25b2c207685c1361b1b', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
                         </script>
-                        <script src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
+                        <script type="text/javascript" src="https://www.highperformanceformat.com/bff22c8588bef25b2c207685c1361b1b/invoke.js"></script>
                     </div>
                 </div>
             </div>
 
-            <div id="about" class="page">
-                <section class="preview-content">
-                    <h2 style="color: var(--accent-yellow);">About Project-Mech Hub</h2>
-                    <p class="preview-desc">EvaFlix is the ultimate gateway to experiencing the wonders of YouTube videos in a simpler, smoother, and more enjoyable way...</p>
-                </section>
-            </div>
-
-            <div id="contact" class="page">
-                <section class="preview-content">
-                    <h2 style="color: var(--accent-yellow);">Contact Us</h2>
-                    <p class="preview-desc">For business inquiries:<br><br>
-                    <strong>Email:</strong> evansreddit2010@gmail.com<br>
-                    <strong>Location:</strong> Abuja, Nigeria</p>
-                </section>
-            </div>
-
-            <div id="privacy" class="page">
-                <section class="preview-content">
-                    <h2 style="color: var(--accent-yellow);">Privacy Policy</h2>
-                    <p class="preview-desc">EvaFlix respects your privacy...</p>
-                </section>
-            </div>
-
+            <div id="about" class="page"><section class="preview-content"><h2 style="color: var(--accent-yellow);">About Us</h2><p>EvaFlix brings healthy fruit stories to life...</p></section></div>
+            <div id="contact" class="page"><section class="preview-content"><h2>Contact Us</h2><p>evansreddit2010@gmail.com</p></section></div>
+            <div id="privacy" class="page"><section class="preview-content"><h2>Privacy Policy</h2><p>We respect your data...</p></section></div>
         </div>
     </div>
+
+    <script src="https://pl28814415.effectivegatecpm.com/99/e4/aa/99e4aaa8e79457548358c5598725b060.js"></script>
+    <script src="https://pl28814469.effectivegatecpm.com/35/93/54/359354668f821698bda055915322307a.js"></script>
 
     <script>
         const apiKey = 'AIzaSyCmsfMTlJ9hQhBLWH5sYQuuSXPKjIsbXQo';
         const channelId = 'UCY4Xo0i1hZwD3o0YDqI-16Q';
 
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const s = document.getElementById('splash-screen');
+                s.style.opacity = '0';
+                setTimeout(() => s.style.display = 'none', 800);
+            }, 5000); 
+        });
+
         function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            const navLinks = document.querySelectorAll('nav a');
-            pages.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
-            navLinks.forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+            document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
             const target = document.getElementById(pageId);
             target.style.display = 'block';
-            setTimeout(() => { target.classList.add('active'); }, 50);
-            const navItem = document.getElementById('nav-' + pageId);
-            if(navItem) navItem.classList.add('active');
-            document.getElementById('content-area').scrollTop = 0;
+            setTimeout(() => target.classList.add('active'), 50);
+            if(document.getElementById('nav-'+pageId)) document.getElementById('nav-'+pageId).classList.add('active');
+        }
+
+        function verifyUserCode() {
+            const input = document.getElementById('user-code-input').value;
+            const status = document.getElementById('verify-status');
+            const verifyBox = document.getElementById('verify-box');
+            const watchSection = document.getElementById('watch-section');
+            if(input === "45893") { 
+                verifyBox.style.display = "none";
+                watchSection.style.display = "block";
+            } else {
+                status.innerHTML = "❌ Invalid Code! Check the YouTube video again.";
+                status.style.color = "#e74c3c";
+            }
         }
 
         function openPreview(videoId, title, thumbnail, description) {
@@ -264,46 +247,36 @@
             document.getElementById('prev-img').src = thumbnail;
             document.getElementById('prev-desc').innerHTML = description;
             document.getElementById('youtube-link').href = `https://www.youtube.com/watch?v=${videoId}`;
+            document.getElementById('verify-box').style.display = "block";
+            document.getElementById('watch-section').style.display = "none";
+            document.getElementById('user-code-input').value = "";
+            document.getElementById('verify-status').innerText = "";
             showPage('preview-page');
         }
 
         async function fetchMyVideos() {
             const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=12&type=video`;
             try {
-                const response = await fetch(url);
-                const data = await response.json();
+                const res = await fetch(url);
+                const data = await res.json();
                 const grid = document.getElementById('video-grid');
                 if (data.items) {
                     grid.innerHTML = ''; 
                     data.items.forEach(item => {
-                        const snippet = item.snippet;
-                        const videoId = item.id.videoId;
-                        const cleanTitle = snippet.title.replace(/'/g, "\\'");
-                        const cleanDesc = snippet.description.replace(/'/g, "\\'").replace(/\n/g, "<br>");
-                        const thumb = snippet.thumbnails.high.url;
-
+                        const s = item.snippet;
                         const card = document.createElement('div');
                         card.className = 'video-card';
                         card.innerHTML = `
-                            <img src="${thumb}">
-                            <div class="video-title">${snippet.title}</div>
-                            <div class="btn-style" onclick="openPreview('${videoId}', '${cleanTitle}', '${thumb}', '${cleanDesc}')">
-                                Preview Details
-                            </div>
+                            <img src="${s.thumbnails.high.url}">
+                            <div class="video-title">${s.title}</div>
+                            <div class="btn-style" onclick="openPreview('${item.id.videoId}', '${s.title.replace(/'/g, "\\'")}', '${s.thumbnails.high.url}', '${s.description.replace(/'/g, "\\'")}')">Watch Video</div>
                         `;
                         grid.appendChild(card);
                     });
                 }
-            } catch (err) { 
-                console.error("API Error:", err); 
-                document.getElementById('video-grid').innerHTML = "<p>Error loading videos.</p>";
-            }
+            } catch (err) { console.error(err); }
         }
-
         fetchMyVideos();
     </script>
-
-    <script src="https://pl28814469.effectivegatecpm.com/35/93/54/359354668f821698bda055915322307a.js"></script>
-
 </body>
 </html>
