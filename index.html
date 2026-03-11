@@ -14,6 +14,96 @@
 --text-gray:#a0a0a0;
 }
 
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+/* Tablets */
+
+@media (max-width: 1024px){
+
+.main-wrapper{
+flex-direction:column;
+}
+
+.sidebar{
+position:relative;
+top:0;
+}
+
+.sidebar-ad{
+width:100%;
+max-width:300px;
+margin:auto;
+}
+
+}
+
+/* Phones */
+
+@media (max-width: 768px){
+
+header{
+flex-direction:column;
+gap:8px;
+text-align:center;
+}
+
+.logo{
+font-size:1.5rem;
+}
+
+.main-wrapper{
+padding:15px 4%;
+}
+
+.grid{
+grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+gap:15px;
+}
+
+.game-card img{
+height:120px;
+}
+
+.banner-728{
+width:100%;
+height:90px;
+}
+
+.sidebar{
+margin-top:10px;
+}
+
+}
+
+/* Small Phones */
+
+@media (max-width: 480px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.game-card img{
+height:100px;
+}
+
+.game-title{
+font-size:.75rem;
+}
+
+.exit-btn{
+padding:5px 10px;
+font-size:.8rem;
+}
+
+#loading-interface{
+padding:25px;
+}
+
+}
+
 body{
 background:var(--bg-dark);
 color:white;
@@ -210,7 +300,7 @@ border:none;
 background:#111;
 border:1px dashed var(--dim-green);
 display:flex;
-align-items:center;
+align-items:center; 
 justify-content:center;
 color:var(--dim-green);
 font-size:.8rem;
@@ -222,10 +312,69 @@ height:90px;
 margin:15px auto;
 max-width:95%;
 }
+
+.game-card{
+touch-action:manipulation;
+}
+
+/* SPLASH SCREEN */
+
+#splash-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#0a0a0a;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:5000;
+flex-direction:column;
+animation:fadeOut 1s ease forwards;
+animation-delay:5s;
+}
+
+.splash-content{
+text-align:center;
+}
+
+.splash-logo{
+font-size:3rem;
+color:#39ff14;
+letter-spacing:3px;
+}
+
+.splash-logo span{
+color:white;
+}
+
+.splash-tag{
+color:#a0a0a0;
+margin-top:10px;
+font-size:.9rem;
+}
+
+/* fade animation */
+
+@keyframes fadeOut{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
 </style>
 </head>
 
 <body>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+          <h1 class="splash-logo">NEON<span>PLAY</span></h1>
+          <p class="splash-tag">Loading the Arcade...</p>
+        </div>
+      </div>
 
 <header>
 <div class="logo">NEON<span style="color:white">PLAY</span></div>
@@ -383,6 +532,24 @@ document.body.style.overflow="auto";
 }
 
 renderGames();
+
+setTimeout(()=>{
+document.getElementById("splash-screen").style.display="none";
+},6000);
+
+function openGame(gameId, gameName) {
+    // ... your existing code ...
+
+    // This creates a "fake" history state so the back button closes the game
+    window.history.pushState({playing: true}, ""); 
+}
+
+// Add this event listener anywhere in your script
+window.onpopstate = function(event) {
+    if (document.getElementById("player-overlay").style.display === "flex") {
+        closeGame();
+    }
+};
 
 </script>
 
