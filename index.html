@@ -1,161 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeonPlay | Premium Web Games</title>
-    <style>
-        :root {
-            --bg-dark: #0a0a0a;
-            --card-bg: #161616;
-            --neon-green: #39ff14;
-            --dim-green: #1f4d1a;
-            --text-gray: #a0a0a0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeonPlay | Premium Web Games</title>
 
-        body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
-        }
+<style>
+:root{
+--bg-dark:#0a0a0a;
+--card-bg:#161616;
+--neon-green:#39ff14;
+--dim-green:#1f4d1a;
+--text-gray:#a0a0a0;
+}
 
-        header {
-            border-bottom: 2px solid var(--neon-green);
-            padding: 1rem 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            background: #111;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
-        }
+body{
+background:var(--bg-dark);
+color:white;
+font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+margin:0;
+overflow-x:hidden;
+}
 
-        .logo { font-size: 1.8rem; font-weight: bold; color: var(--neon-green); text-transform: uppercase; letter-spacing: 2px; }
+header{
+border-bottom:2px solid var(--neon-green);
+padding:1rem 5%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(180deg,#111 0%,#0a0a0a 100%);
+box-shadow:0 0 15px rgba(57,255,20,0.2);
+}
 
-        .main-wrapper {
-            display: flex;
-            padding: 20px 5%;
-            gap: 20px;
-        }
+.logo{
+font-size:1.8rem;
+font-weight:bold;
+color:var(--neon-green);
+letter-spacing:2px;
+}
 
-        .content-area { flex: 3; }
+.main-wrapper{
+display:flex;
+padding:20px 5%;
+gap:20px;
+}
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 20px; 
-        }
+.content-area{flex:3;}
 
-        .game-card { 
-            background: var(--card-bg); 
-            border-radius: 10px; 
-            overflow: hidden; 
-            border: 1px solid #222; 
-            cursor: pointer; 
-            transition: 0.3s; 
-        }
+.sidebar{
+flex:1;
+background:var(--card-bg);
+border:1px solid #222;
+border-radius:10px;
+display:flex;
+flex-direction:column;
+min-height:500px;
+position:sticky;
+top:20px;
+}
 
-        .game-card:hover { transform: translateY(-5px); border-color: var(--neon-green); }
+.sidebar-header{
+background:#111;
+border-bottom:1px solid var(--dim-green);
+display:flex;
+justify-content:space-around;
+padding:10px 0;
+}
 
-        .game-card img { 
-            width: 100%; 
-            height: 150px; 
-            object-fit: cover; 
-            background: #222;
-        }
+.sidebar-header span{
+font-size:.75rem;
+color:var(--neon-green);
+cursor:pointer;
+font-weight:bold;
+}
 
-        .game-info { padding: 12px; }
-        .game-info h3 { margin: 0; font-size: 1rem; color: #fff; }
-        .game-info p { margin: 5px 0 0; font-size: 0.8rem; color: var(--neon-green); }
+.sidebar-body{
+padding:15px;
+flex-grow:1;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
 
-        #player-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; 
-        }
-        
-        iframe { width: 90%; height: 85%; border: 2px solid var(--neon-green); background: black; }
-        
-        .close-btn { position: absolute; top: 15px; right: 25px; font-size: 3rem; color: var(--neon-green); cursor: pointer; }
+.sidebar-ad{
+width:300px;
+height:250px;
+background:#000;
+border:1px dashed var(--dim-green);
+display:flex;
+align-items:center;
+justify-content:center;
+color:var(--dim-green);
+font-size:.8rem;
+}
 
-        #loader { text-align: center; color: var(--neon-green); }
-    </style>
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+gap:20px;
+}
+
+.game-card{
+background:var(--card-bg);
+border-radius:10px;
+overflow:hidden;
+border:1px solid #222;
+cursor:pointer;
+transition:.3s;
+}
+
+.game-card:hover{
+transform:translateY(-5px);
+border-color:var(--neon-green);
+}
+
+.game-card img{
+width:100%;
+height:140px;
+object-fit:cover;
+}
+
+.game-info{padding:10px;}
+
+#player-overlay{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.9);
+backdrop-filter:blur(10px);
+z-index:1000;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+/* PLAYER HEADER */
+
+.game-header{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+background:#111;
+border-bottom:2px solid var(--neon-green);
+padding:10px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:2000;
+}
+
+.game-title{
+color:var(--neon-green);
+font-size:.9rem;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.exit-btn{
+background:var(--neon-green);
+color:black;
+padding:6px 15px;
+border-radius:4px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* LOADER */
+
+#loading-interface{
+border:2px solid var(--neon-green);
+padding:40px;
+border-radius:15px;
+text-align:center;
+background:#000;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:4px solid var(--dim-green);
+border-top:4px solid var(--neon-green);
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin:20px auto;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+/* FULLSCREEN GAME */
+
+iframe{
+display:none;
+position:absolute;
+top:50px;
+left:0;
+width:100%;
+height:calc(100% - 50px);
+border:none;
+}
+
+.ad-slot{
+background:#111;
+border:1px dashed var(--dim-green);
+display:flex;
+align-items:center;
+justify-content:center;
+color:var(--dim-green);
+font-size:.8rem;
+}
+
+.banner-728{
+width:728px;
+height:90px;
+margin:15px auto;
+max-width:95%;
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo">NEON<span style="color:white">PLAY</span></div>
-        <div style="font-size: 0.8rem; color: var(--neon-green)">MOBILE READY v2.0</div>
-    </header>
+<header>
+<div class="logo">NEON<span style="color:white">PLAY</span></div>
+<div style="font-size:.8rem;color:var(--neon-green)">MOBILE READY v2.0</div>
+</header>
 
-    <div class="main-wrapper">
-        <div class="content-area">
-            <h2 style="border-left: 4px solid var(--neon-green); padding-left: 15px; margin-bottom: 25px;">Mission Hub</h2>
-            <div class="grid" id="game-grid"></div>
-        </div>
-    </div>
+<div class="ad-slot banner-728">TOP BANNER AD</div>
 
-    <div id="player-overlay">
-        <span class="close-btn" onclick="closeGame()">&times;</span>
-        <div id="loader"><h2>INITIALIZING SYSTEM...</h2></div>
-        <iframe id="game-frame" src=""></iframe>
-    </div>
+<div class="main-wrapper">
 
-    <script>
-        const games = [
-            { id: '8483f98c894b4e9491763131c36f2331', name: 'Bubble Shooter', cat: 'Arcade' },
-            { id: '565d7593c789437194f4c6e9d6d5a1b5', name: 'Tomb Runner', cat: 'Adventure' },
-            { id: '25463f84307a4a2789643f87b38d3900', name: 'Moto X3M', cat: 'Racing' },
-            { id: '8072710ca51d4546870717643f07a23c', name: 'Stickman Hook', cat: 'Action' },
-            { id: '668e27c7569b4395804300403756317b', name: 'Foot Chinko', cat: 'Sports' },
-            { id: '560662d5930e4e5b902e825028e9668d', name: 'Snail Bob 7', cat: 'Puzzle' },
-            { id: '69d78575080942858780376269666986', name: 'Little Big Snake', cat: '.IO' },
-            { id: '095648f95c8942388656627068779836', name: 'Traffic Tom', cat: 'Driving' },
-            { id: '7db2f2c81448496489438096d274094e', name: 'Mahjong', cat: 'Board' },
-            { id: '3e08f52285e74d119e701979b0098f9a', name: 'Basketball Stars', cat: 'Sports' },
-            { id: '536647970d244976a47a16e027415494', name: 'Block Puzzle', cat: 'Logic' },
-            { id: '866759c8d6724659b81b89694e82417a', name: 'Sniper Mission', cat: 'Shooter' },
-            { id: 'e92822a5796b412b93475f73d3215682', name: 'Drift King', cat: 'Racing' },
-            { id: 'a29777c576594b2a8d9b1c5c56f8f555', name: 'Cyber Soldier', cat: 'Action' },
-            { id: '99d78575080942858780376269666981', name: 'Kingdom Wars', cat: 'Strategy' }
-        ];
+<div class="content-area">
 
-        const grid = document.getElementById('game-grid');
+<h2 style="border-left:4px solid var(--neon-green);padding-left:15px;margin-bottom:20px;">
+Mission Hub
+</h2>
 
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.onclick = () => openGame(game.id);
-            card.innerHTML = `
-                <img src="https://img.gamedistribution.com/${game.id}-512x384.jpg" alt="${game.name}">
-                <div class="game-info">
-                    <h3>${game.name}</h3>
-                    <p>${game.cat}</p>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+<div class="grid" id="game-grid"></div>
 
-        function openGame(id) {
-            const overlay = document.getElementById('player-overlay');
-            const frame = document.getElementById('game-frame');
-            const loader = document.getElementById('loader');
+</div>
 
-            overlay.style.display = 'flex';
-            loader.style.display = 'block';
-            frame.style.display = 'none';
+<aside class="sidebar">
 
-            // TWEAK: Using the API URL to force load on subdomains/live server
-            frame.src = `https://html5.api.gamedistribution.com/main.html?url=https://html5.gamedistribution.com/${id}/`;
+<div class="sidebar-header">
+<span onclick="showInfo('privacy')">Privacy</span>
+<span onclick="showInfo('about')">About</span>
+<span onclick="showInfo('contact')">Contact</span>
+</div>
 
-            setTimeout(() => {
-                loader.style.display = 'none';
-                frame.style.display = 'block';
-            }, 3000);
-        }
+<div class="sidebar-body" id="sidebar-content">
+<div class="sidebar-ad">ADSTERRA SIDEBAR AD (300x250)</div>
+</div>
 
-        function closeGame() {
-            document.getElementById('player-overlay').style.display = 'none';
-            document.getElementById('game-frame').src = "";
-        }
-    </script>
+</aside>
+
+</div>
+
+<div id="player-overlay">
+
+<div class="game-header">
+<span class="game-title" id="playing-title">LOADING...</span>
+<div class="exit-btn" onclick="closeGame()">EXIT</div>
+</div>
+
+<div class="ad-slot banner-728">OVERLAY TOP AD</div>
+
+<div id="loading-interface">
+<h2 id="loading-game-name" style="color:var(--neon-green)">INITIALIZING...</h2>
+<div class="spinner"></div>
+<p>CONNECTING TO SERVER...</p>
+</div>
+
+<iframe id="game-frame"></iframe>
+
+<div class="ad-slot banner-728">OVERLAY BOTTOM AD</div>
+
+</div>
+
+<footer style="text-align:center;padding:20px;color:var(--text-gray)">
+© 2026 NeonPlay Arcade
+</footer>
+
+<script>
+
+const games=[
+
+{ id:'moto-x3m', name:'Moto X3M', cat:'Racing'},
+{ id:'drift-cup-racing', name:'Drift Cup', cat:'Racing'},
+{ id:'gulper-io', name:'Gulper.io', cat:'Action'},
+{ id:'mr-racer-car-racing-game', name:'Mr Racer', cat:'Racing'},
+{ id:'jewels-of-oz', name:'Jewels of Oz', cat:'Puzzle'},
+{ id:'cut-the-rope-2', name:'Cut The Rope 2', cat:'Puzzle'},
+{ id:'draw-to-home-draw-the-line', name:'Draw To House', cat:'Puzzle'},
+{ id:'word-connect', name:'Word Connect', cat:'Puzzle'},
+{ id:'vex-x3m', name:'Vex X3M', cat:'Racing'},
+{ id:'basketball-stars', name:'Basketball Stars', cat:'Sports'},
+{ id:'football-masters', name:'Football Masters', cat:'Sports'},
+{ id:'om-nom-run', name:'Om Nom Run', cat:'Action'},
+{ id:'protect-my-dog', name:'Protect My Dog', cat:'Puzzle'},
+{ id:'bricks-breaker-crush-quest', name:'Bricks Breaker', cat:'Puzzle'},
+{ id:'angry-balls', name:'Angry Balls', cat:'Action'}
+
+];
+
+function renderGames(){
+
+const grid=document.getElementById("game-grid");
+
+games.forEach(game=>{
+
+const card=document.createElement("div");
+
+card.className="game-card";
+
+card.onclick=()=>openGame(game.id,game.name);
+
+card.innerHTML=`
+<img loading="lazy" src="https://img.gamepix.com/games/${game.id}/cover/${game.id}.png">
+<div class="game-info">
+<h3>${game.name}</h3>
+<p>${game.cat}</p>
+</div>
+`;
+
+grid.appendChild(card);
+
+});
+
+}
+
+const sidebarContent=document.getElementById('sidebar-content');
+
+const defaultAd='<div class="sidebar-ad">ADSTERRA SIDEBAR AD (300x250)</div>';
+
+const infoTexts={
+privacy:"<h3>Privacy Policy</h3><p style='font-size:0.8rem;color:#a0a0a0;'>We do not collect personal data.</p>",
+about:"<h3>About Us</h3><p style='font-size:0.8rem;color:#a0a0a0;'>NeonPlay is a hub for HTML5 games.</p>",
+contact:"<h3>Contact</h3><p style='font-size:0.8rem;color:#a0a0a0;'>contact@neonplay.io</p>"
+};
+
+function showInfo(type){
+sidebarContent.innerHTML=infoTexts[type];
+setTimeout(()=>{sidebarContent.innerHTML=defaultAd;},15000);
+}
+
+function openGame(gameId,gameName){
+
+const frame=document.getElementById("game-frame");
+const overlay=document.getElementById("player-overlay");
+const loader=document.getElementById("loading-interface");
+
+document.getElementById("loading-game-name").innerText=gameName;
+document.getElementById("playing-title").innerText="PLAYING: "+gameName.toUpperCase();
+
+loader.style.display="block";
+frame.style.display="none";
+overlay.style.display="flex";
+
+document.body.style.overflow="hidden";
+
+frame.src=`https://www.gamepix.com/play/${gameId}?sid=1&mobile=1&autoplay=1`;
+
+frame.onload=function(){
+loader.style.display="none";
+frame.style.display="block";
+};
+
+}
+
+function closeGame(){
+
+document.getElementById("game-frame").src="";
+document.getElementById("player-overlay").style.display="none";
+document.body.style.overflow="auto";
+
+}
+
+renderGames();
+
+</script>
+
 </body>
 </html>
